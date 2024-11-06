@@ -2,7 +2,7 @@
 
 namespace PokeApi.InferredSchema
 {
-    public class CrateDB
+    public class CreateDB
     {
         static void Main(string[] args)
         {
