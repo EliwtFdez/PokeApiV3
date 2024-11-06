@@ -13,7 +13,7 @@
         public int DefensaEspecial { get; set; }
         public int Velocidad { get; set; }
 
-        public Entrenador Entrenador { get; set; }
-        public Pokemon Pokemon { get; set; }
+        public Entrenador? Entrenador { get; set; }
+        public Pokemon? Pokemon { get; set; }
     }
 }

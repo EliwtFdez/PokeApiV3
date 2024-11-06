@@ -4,7 +4,10 @@ using PokeApi.Models;
 
 namespace PokeApi.Controllers
 {
-    public class EntrenadorController : Controller
+
+    [ApiController]
+    [Route("api/[controller]")]
+    public class EntrenadorController : ControllerBase
     {
         private readonly AppDbContext _context;
 
@@ -13,110 +16,67 @@ namespace PokeApi.Controllers
             _context = context;
         }
 
-        // GET: EntrenadorMvcController
-        public ActionResult Index()
+        // GET: api/Entrenador
+        [HttpGet]
+        public ActionResult<IEnumerable<Entrenador>> GetEntrenadores()
         {
-            var entrenadores = _context.Entrenadores.ToList();
-            return View(entrenadores);
+            return _context.Entrenadores.ToList();
         }
 
-        // GET: EntrenadorMvcController/Details/5
-        public ActionResult Details(int id)
+        // GET: api/Entrenador/5
+        [HttpGet("{id}")]
+        public ActionResult<Entrenador> GetEntrenador(int idEntrenador)
         {
-            var entrenador = _context.Entrenadores.Find(id);
+            var entrenador = _context.Entrenadores.Find(idEntrenador);
+            if (entrenador == null)
+
+                return NotFound();
+
+            return entrenador;
+        }
+
+        // POST: api/Entrenador
+        [HttpPost]
+        public ActionResult<Entrenador> CreateEntrenador(Entrenador entrenador)
+        {
+            if (ModelState.IsValid)
+            {
+                _context.Entrenadores.Add(entrenador);
+                _context.SaveChanges();
+                return CreatedAtAction(nameof(GetEntrenador), new { id = entrenador.IdEntrenador }, entrenador);
+            }
+            return BadRequest(ModelState);
+        }
+
+        // PUT: api/Entrenador/5
+        [HttpPut("{id}")]
+        public IActionResult EditEntrenador(int idEntrenador, Entrenador entrenador)
+        {
+            if (idEntrenador != entrenador.IdEntrenador)
+                return BadRequest();
+
+            if (ModelState.IsValid)
+            {
+                _context.Update(entrenador);
+                _context.SaveChanges();
+                return NoContent();
+            }
+            return BadRequest(ModelState);
+        }
+
+        // DELETE: api/Entrenador/5
+        [HttpDelete("{idEntrenador}")]
+        public IActionResult DeleteEntrenador(int idEntrenador)
+        {
+            var entrenador = _context.Entrenadores.Find(idEntrenador);
             if (entrenador == null)
                 return NotFound();
 
-            return View(entrenador);
-        }
-
-        // GET: EntrenadorMvcController/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: EntrenadorMvcController/Create
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(Entrenador entrenador)
-        {
-            try
-            {
-                if (ModelState.IsValid)
-                {
-                    _context.Entrenadores.Add(entrenador);
-                    _context.SaveChanges();
-                    return RedirectToAction(nameof(Index));
-                }
-                return View(entrenador);
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: EntrenadorMvcController/Edit/5
-        public ActionResult Edit(int id)
-        {
-            var entrenador = _context.Entrenadores.Find(id);
-            if (entrenador == null)
-                return NotFound();
-
-            return View(entrenador);
-        }
-
-        // POST: EntrenadorMvcController/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, Entrenador entrenador)
-        {
-            try
-            {
-                if (ModelState.IsValid)
-                {
-                    _context.Update(entrenador);
-                    _context.SaveChanges();
-                    return RedirectToAction(nameof(Index));
-                }
-                return View(entrenador);
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: EntrenadorMvcController/Delete/5
-        public ActionResult Delete(int id)
-        {
-            var entrenador = _context.Entrenadores.Find(id);
-            if (entrenador == null)
-                return NotFound();
-
-            return View(entrenador);
-        }
-
-        // POST: EntrenadorMvcController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                var entrenador = _context.Entrenadores.Find(id);
-                if (entrenador != null)
-                {
-                    _context.Entrenadores.Remove(entrenador);
-                    _context.SaveChanges();
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+            _context.Entrenadores.Remove(entrenador);
+            _context.SaveChanges();
+            return NoContent();
         }
     }
+
+
 }

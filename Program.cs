@@ -13,8 +13,6 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<AppDbContext>(options => { options.UseSqlServer(builder.Configuration.GetConnectionString("SqlServerConnStr")); });
 
-
-
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
