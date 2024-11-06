@@ -4,52 +4,52 @@ using PokeApi.Models;
 
 namespace PokeApi.Controllers
 {
-    public class PokemonMvcController : Controller
+    public class EntrenadorController : Controller
     {
         private readonly AppDbContext _context;
 
-        public PokemonMvcController(AppDbContext context)
+        public EntrenadorController(AppDbContext context)
         {
             _context = context;
         }
 
-        // GET: PokemonMvcController
+        // GET: EntrenadorMvcController
         public ActionResult Index()
         {
-            var pokemones = _context.Pokemones.ToList();
-            return View(pokemones);
+            var entrenadores = _context.Entrenadores.ToList();
+            return View(entrenadores);
         }
 
-        // GET: PokemonMvcController/Details/5
+        // GET: EntrenadorMvcController/Details/5
         public ActionResult Details(int id)
         {
-            var pokemon = _context.Pokemones.Find(id);
-            if (pokemon == null)
+            var entrenador = _context.Entrenadores.Find(id);
+            if (entrenador == null)
                 return NotFound();
 
-            return View(pokemon);
+            return View(entrenador);
         }
 
-        // GET: PokemonMvcController/Create
+        // GET: EntrenadorMvcController/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: PokemonMvcController/Create
+        // POST: EntrenadorMvcController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(Pokemon pokemon)
+        public ActionResult Create(Entrenador entrenador)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    _context.Pokemones.Add(pokemon);
+                    _context.Entrenadores.Add(entrenador);
                     _context.SaveChanges();
                     return RedirectToAction(nameof(Index));
                 }
-                return View(pokemon);
+                return View(entrenador);
             }
             catch
             {
@@ -57,30 +57,30 @@ namespace PokeApi.Controllers
             }
         }
 
-        // GET: PokemonMvcController/Edit/5
+        // GET: EntrenadorMvcController/Edit/5
         public ActionResult Edit(int id)
         {
-            var pokemon = _context.Pokemones.Find(id);
-            if (pokemon == null)
+            var entrenador = _context.Entrenadores.Find(id);
+            if (entrenador == null)
                 return NotFound();
 
-            return View(pokemon);
+            return View(entrenador);
         }
 
-        // POST: PokemonMvcController/Edit/5
+        // POST: EntrenadorMvcController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, Pokemon pokemon)
+        public ActionResult Edit(int id, Entrenador entrenador)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    _context.Update(pokemon);
+                    _context.Update(entrenador);
                     _context.SaveChanges();
                     return RedirectToAction(nameof(Index));
                 }
-                return View(pokemon);
+                return View(entrenador);
             }
             catch
             {
@@ -88,27 +88,27 @@ namespace PokeApi.Controllers
             }
         }
 
-        // GET: PokemonMvcController/Delete/5
+        // GET: EntrenadorMvcController/Delete/5
         public ActionResult Delete(int id)
         {
-            var pokemon = _context.Pokemones.Find(id);
-            if (pokemon == null)
+            var entrenador = _context.Entrenadores.Find(id);
+            if (entrenador == null)
                 return NotFound();
 
-            return View(pokemon);
+            return View(entrenador);
         }
 
-        // POST: PokemonMvcController/Delete/5
+        // POST: EntrenadorMvcController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Delete(int id, IFormCollection collection)
         {
             try
             {
-                var pokemon = _context.Pokemones.Find(id);
-                if (pokemon != null)
+                var entrenador = _context.Entrenadores.Find(id);
+                if (entrenador != null)
                 {
-                    _context.Pokemones.Remove(pokemon);
+                    _context.Entrenadores.Remove(entrenador);
                     _context.SaveChanges();
                 }
                 return RedirectToAction(nameof(Index));
